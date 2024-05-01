@@ -2,27 +2,53 @@ import { drawImage } from "../general.js";
 
 export default class Bunny
 {
-    constructor(ctx, canvas)
+    constructor(ctx, canvas, config, mapSize)
     {
         this.position = {
-            x: 0,
-            y: 0
+            x: 3,
+            y: 3
+        }
+        this.absolutePosition = {
+            x: config.viewDistance.x,
+            y: config.viewDistance.y
         }
         this.dirX;
         this.image = new Image();
-        this.image.src = "/assets/Bunny.png";
+        this.image.src = "assets/Bunny.png";
         this.ctx = ctx;
         this.canvas = canvas;
+        this.config = config;
+        this.mapSize = mapSize;
     };
 
-    moveX(dir)
+    move(dirX, dirY)
     {
-        this.dirX = dir;
-        this.bunny.position.x += dir;
-    }
-    moveY(dir)
-    {
-        this.bunny.position.y += dir;
+        if (this.position.x + dirX == this.mapSize.x
+            || this.position.x + dirX < 0
+            || this.position.y + dirY == this.mapSize.y
+            || this.position.y + dirY < 0) return; // Если выходим за границы карты
+
+        this.dirX = dirX;
+        this.position.x += dirX;
+        this.position.y += dirY;
+        if (this.position.x + this.config.viewDistance.x >= this.mapSize.x // Если дальность обзора на границе карты
+            || this.position.x - this.config.viewDistance.x < 0)
+        {
+            this.absolutePosition.x += dirX;
+        }
+        else
+        {
+            this.absolutePosition.x = this.config.viewDistance.x;
+        }
+        if (this.position.y + this.config.viewDistance.y >= this.mapSize.y // Если дальность обзора на границе карты
+            || this.position.y - this.config.viewDistance.y < 0)
+        {
+            this.absolutePosition.y += dirY;
+        }
+        else
+        {
+            this.absolutePosition.y = this.config.viewDistance.y;
+        }
     }
 
     update()
@@ -30,12 +56,9 @@ export default class Bunny
 
     }
 
-    render(ctx, config)
+    render()
     {
-        let pos = {x: this.position.x * config.grid, y: this.position.y * config.grid};
-        
-        drawImage(ctx, this.image, pos, {x:config.grid, y:config.grid});
-        
-        
+        let pos = {x: this.absolutePosition.x * this.config.grid, y: this.absolutePosition.y * this.config.grid};
+        drawImage(this.ctx, this.image, pos, {x:this.config.grid, y:this.config.grid});
     }
 }

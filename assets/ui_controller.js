@@ -27,8 +27,9 @@ export default class UI_Controller
 
         // Инициализация размеров
         this.config = config; // Присваивает game
-        document.getElementById("size-map").innerHTML = config.sizeMap.x + " x " + config.sizeMap.y;
-        document.getElementById("content-center-wrapper").style.height = config.canvas.height;                                       
+        document.getElementById("size-map").innerHTML = config.viewSize.x + " x " + config.viewSize.y;
+        document.getElementById("content-center-wrapper").style.height = config.canvas.height;              
+        document.getElementById("page").style.width = config.canvas.width;                         
         this.config.canvas.style.backgroundSize = this.config.grid + "px " + this.config.grid + "px"; // ФОН
     }
 

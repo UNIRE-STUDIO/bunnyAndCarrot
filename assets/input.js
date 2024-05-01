@@ -28,8 +28,7 @@ export default class Input
         
         this.changeScreenEvent;
         this.startGameEvent;
-        this.moveXEvent;
-        this.moveYEvent;
+        this.moveEvent;
     }
 
     backButton_click()
@@ -57,19 +56,19 @@ export default class Input
         console.log(e.code);
         if (e.code === "ArrowRight")
         {
-            this.moveXEvent(1);
+            this.moveEvent(1,0);
         }
         if (e.code === "ArrowLeft")
         {
-            this.moveXEvent(-1);
+            this.moveEvent(-1,0);
         }
         if (e.code === "ArrowUp")
         {
-            this.moveYEvent(-1);
+            this.moveEvent(0,-1);
         }
         if (e.code === "ArrowDown")
         {
-            this.moveYEvent(1);
+            this.moveEvent(0,1);
         }
     }
 
