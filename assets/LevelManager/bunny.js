@@ -28,7 +28,8 @@ export default class Bunny
             || this.position.y + dirY == this.mapSize.y
             || this.position.y + dirY < 0) return; // Если выходим за границы карты
 
-        this.dirX = dirX;
+        if (dirX != 0) this.dirX = dirX; 
+        
         this.position.x += dirX;
         this.position.y += dirY;
         if (this.position.x + this.config.viewDistance.x >= this.mapSize.x // Если дальность обзора на границе карты
@@ -59,6 +60,15 @@ export default class Bunny
     render()
     {
         let pos = {x: this.absolutePosition.x * this.config.grid, y: this.absolutePosition.y * this.config.grid};
+        if (this.dirX < 0)
+        {
+            this.ctx.save();
+            this.ctx.translate(this.canvas.width, 0);
+            this.ctx.scale(-1,1);                       // Отражаем изображение 
+            drawImage(this.ctx, this.image, {x: this.canvas.width - pos.x - this.config.grid, y: pos.y}, {x:this.config.grid, y:this.config.grid});
+            this.ctx.restore();
+            return;
+        }
         drawImage(this.ctx, this.image, pos, {x:this.config.grid, y:this.config.grid});
     }
 }
