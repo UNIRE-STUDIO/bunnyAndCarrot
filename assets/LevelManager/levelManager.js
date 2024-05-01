@@ -1,6 +1,7 @@
 import { randomRange, getTimeFormat, drawRect } from "../general.js";
 import SaveManager from "../saveManager.js";
 import Bunny from "./bunny.js";
+import MapManager from "./mapManager.js";
 
 export default class LevelManager
 {
@@ -21,11 +22,12 @@ export default class LevelManager
         
         // config
         this.config = config;
-
-        input.moveXEvent = this.moveX.bind(this);
-        input.moveYEvent = this.moveY.bind(this);
         
-        this.bunny = new Bunny();
+        this.bunny = new Bunny(this.ctx, this.canvas);
+        this.mapManager = new MapManager();
+
+        input.moveXEvent = this.bunny.moveX.bind(this);
+        input.moveYEvent = this.bunny.moveY.bind(this);
     }
 
     
@@ -51,15 +53,6 @@ export default class LevelManager
         this.gameOverEvent();
     }
 
-    moveX(dir)
-    {
-        this.bunny.position.x += dir;
-    }
-    moveY(dir)
-    {
-        this.bunny.position.y += dir;
-    }
-
     start()
     {
         this.score = 0;
@@ -73,7 +66,7 @@ export default class LevelManager
 
     render()
     {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);   // Убрать
+        this.mapManager.render(this.ctx, this.config);
         this.bunny.render(this.ctx, this.config);
     }
 }

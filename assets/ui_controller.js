@@ -29,6 +29,7 @@ export default class UI_Controller
         this.config = config; // Присваивает game
         document.getElementById("size-map").innerHTML = config.sizeMap.x + " x " + config.sizeMap.y;
         document.getElementById("content-center-wrapper").style.height = config.canvas.height;                                       
+        this.config.canvas.style.backgroundSize = this.config.grid + "px " + this.config.grid + "px"; // ФОН
     }
 
     turnOnSection(section)

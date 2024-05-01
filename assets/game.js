@@ -74,6 +74,11 @@ export default class Game
     render(lag)
     {
         if (this.currentScreen == GameScreens.MENU) return;
+        this.config.ctx.clearRect(0, 0, this.config.canvas.width, this.config.canvas.height);
+        this.config.ctx.imageSmoothingEnabled = false; // Отключить размытие
+        this.config.ctx.mozImageSmoothingEnabled = false;
+        this.config.ctx.webkitImageSmoothingEnabled = false;
+        this.config.ctx.msImageSmoothingEnabled = false;
         this.levelManager.render();
     }
 }
