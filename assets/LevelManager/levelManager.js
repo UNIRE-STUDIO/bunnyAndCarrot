@@ -20,23 +20,24 @@ export default class LevelManager
         this.saveManager;
 
 
-        this.map = [[0,0,0,0,0,1,0,0,0,0],
+        this.map = [[0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,1,1,0,0,0],
                     [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,1,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0]];
+                    [1,0,0,0,0,1,1,0,0,1],
+                    [1,1,0,0,0,1,1,0,1,1]];
         this.tiles = [new Image(), new Image()];
         this.tiles[0].src = "assets/Grass.png";
-        this.tiles[1].src = "assets/Bunny.png";
+        this.tiles[1].src = "assets/Watter2.png";
         
         this.config = config;
         
         this.bunny = new Bunny(this.ctx, this.canvas, this.config, {x: this.map[0].length, y: this.map.length});
+        this.bunny.levelManager = this;
         input.moveEvent = this.move.bind(this);
     }
 
@@ -79,7 +80,7 @@ export default class LevelManager
         
     }
 
-    render()
+    render(msPerUpdate, lag)
     {
         let targetPos = this.bunny.position;
         let targetAbsolutePos = this.bunny.absolutePosition;
@@ -94,6 +95,6 @@ export default class LevelManager
                 drawImage(this.ctx, this.tiles[this.map[tileY][tileX]], pos, {x:this.config.grid, y:this.config.grid});
             }
         }
-        this.bunny.render();
+        this.bunny.render(msPerUpdate, lag);
     }
 }

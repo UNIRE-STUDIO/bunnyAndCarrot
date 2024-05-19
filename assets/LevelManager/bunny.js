@@ -1,10 +1,14 @@
-import { drawImage } from "../general.js";
+import { drawImage, moveTo } from "../general.js";
 
 export default class Bunny
 {
     constructor(ctx, canvas, config, mapSize)
     {
         this.position = {
+            x: 3,
+            y: 3
+        }
+        this.oldPosition = {
             x: 3,
             y: 3
         }
@@ -19,6 +23,8 @@ export default class Bunny
         this.canvas = canvas;
         this.config = config;
         this.mapSize = mapSize;
+
+        this.levelManager; // Присваивается level manager
     };
 
     move(dirX, dirY)
@@ -28,8 +34,10 @@ export default class Bunny
             || this.position.y + dirY == this.mapSize.y
             || this.position.y + dirY < 0) return; // Если выходим за границы карты
 
-        if (dirX != 0) this.dirX = dirX; 
+        if (dirX != 0) this.dirX = dirX;
         
+        // Проверка на препятствия | 1 означает препятсвие
+        if (this.levelManager.map[this.position.y + dirY][this.position.x + dirX] == 1) return;
         this.position.x += dirX;
         this.position.y += dirY;
         if (this.position.x + this.config.viewDistance.x >= this.mapSize.x // Если дальность обзора на границе карты

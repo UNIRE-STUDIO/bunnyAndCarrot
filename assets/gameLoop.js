@@ -45,7 +45,7 @@ export default class GameLoop
         }
 
         // Рендерим кадр с нужны интервалом (this.ms_per_update)
-        this.render();
+        this.render(this.ms_per_update, this.lag);
 
         requestAnimFrame(this.gameLoop.bind(this));
     }

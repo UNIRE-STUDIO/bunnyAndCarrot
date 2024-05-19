@@ -71,7 +71,7 @@ export default class Game
         this.levelManager.update(lag);
     }   
 
-    render(lag)
+    render(msPerUpdate, lag)
     {
         if (this.currentScreen == GameScreens.MENU) return;
         this.config.ctx.clearRect(0, 0, this.config.canvas.width, this.config.canvas.height);
@@ -79,7 +79,7 @@ export default class Game
         this.config.ctx.mozImageSmoothingEnabled = false;
         this.config.ctx.webkitImageSmoothingEnabled = false;
         this.config.ctx.msImageSmoothingEnabled = false;
-        this.levelManager.render();
+        this.levelManager.render(msPerUpdate, lag);
     }
 }
 
