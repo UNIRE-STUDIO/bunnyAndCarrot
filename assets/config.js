@@ -2,7 +2,7 @@ export default class Config
 {
     constructor()
     {
-        this.grid = 64;
+        this.grid = 48;
         this.viewSize = {
             x: 7,
             y: 7

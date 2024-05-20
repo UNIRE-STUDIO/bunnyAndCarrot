@@ -77,22 +77,25 @@ export default class LevelManager
 
     update(lag)
     {
-        
+        this.bunny.update(lag);
     }
 
     render(msPerUpdate, lag)
     {
-        let targetPos = this.bunny.position;
-        let targetAbsolutePos = this.bunny.absolutePosition;
-        for (let i = 0; i <= this.config.viewSize.y; i++) {
-            let tileY = targetPos.y - targetAbsolutePos.y + i;
-            if (tileY < 0 || tileY >= this.map.length) continue;
-            for (let j = 0; j <= this.config.viewSize.x; j++) 
+        let posBunny = this.bunny.position;
+        let targetPos = this.bunny.targetPosition;
+        let targetAbsolutePos = this.bunny.targetAbsolutePosition;
+        let absolutePosition = this.bunny.absolutePosition;
+        for (let i = targetPos.y - this.config.viewSize.y; i <= targetPos.y + this.config.viewSize.y; i++) {
+            if (i < 0 || i >= this.map.length) continue;
+            for (let j = targetPos.x - this.config.viewSize.x; j <= targetPos.x + this.config.viewSize.x; j++) 
             {
-                let tileX = targetPos.x - targetAbsolutePos.x + j;
-                if (tileX < 0 || tileX >= this.map[i].length) continue;
-                let pos = {x: j * this.config.grid, y: i * this.config.grid};
-                drawImage(this.ctx, this.tiles[this.map[tileY][tileX]], pos, {x:this.config.grid, y:this.config.grid});
+                if (j < 0 || j >= this.map[i].length) continue;
+
+                // J(Проходимся по видимым клеткам) + -(Инвертированная позиция, так-как персонаж двигается в одну сторону, а карта в другую) + 
+                // (относительное положение персонажа на экрана)
+                let pos = {x: (j + -posBunny.x + absolutePosition.x) * this.config.grid, y: (i + -posBunny.y + absolutePosition.y) * this.config.grid};
+                drawImage(this.ctx, this.tiles[this.map[i][j]], pos, {x:this.config.grid+1, y:this.config.grid+1});
             }
         }
         this.bunny.render(msPerUpdate, lag);
